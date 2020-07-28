@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="kategori"
+            type="com.example.eventgoapps.data.remote.model.Kategori" />
+    </data>
+    <androidx.cardview.widget.CardView
+        android:layout_marginTop="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="10dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorSecond"
+            android:padding="10dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tv_jum_masuk"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{kategori.namaKategori}"
+                            android:layout_toRightOf="@id/iv_masuk"
+                            tools:text="Kesenian"
+                            android:fontFamily="@font/nunito"
+                            android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:textColor="@android:color/white"/>
+                        <ImageView
+                            android:layout_marginLeft="20dp"
+                            android:id="@+id/iv_masuk"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="10dp"
+                            app:imageUrl="@{kategori.gambar}"/>
+                    </RelativeLayout>
+                    <TextView
+
+                        android:layout_marginLeft="10dp"
+                        android:fontFamily="@font/nunito"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.format(@string/generate_jum_kategori, kategori.jumKategori)}"
+                        android:textSize="15sp"
+                        android:textColor="@android:color/white"/>
+                </LinearLayout>
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                android:tint="@android:color/white"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

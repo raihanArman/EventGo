@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">EventGoApps</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="generate_nama_user">Hai <b>%s</b></string>
+    <string name="generate_nama_kategori">Kategori : %s</string>
+    <string name="title_activity_maps_event_terdekat">Map</string>
+    <string name="generate_jumlah_like">%s suka</string>
+    <string name="generate_upload_proses">Upload sedang proses (%s)</string>
+    <string name="generate_jum_kategori">%s Item</string>
+    <string name="generate_upload_terima">Upload diterima (%s)</string>
+    <string name="generate_upload_tolak">Upload ditolak (%s)</string>
+    <string name="title_activity_event_location">Map</string>
+    <string name="google_direction_key">AIzaSyC5lBsWJa-uukcZHCSJY7ljOy1czfsGtJY</string>
+</resources>

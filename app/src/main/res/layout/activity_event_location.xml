@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="event"
+            type="com.example.eventgoapps.data.remote.model.Event" />
+        <variable
+            name="jarak"
+            type="String" />
+        <variable
+            name="waktu"
+            type="String" />
+    </data>
+    <LinearLayout
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="100">
+        <RelativeLayout
+            android:id="@+id/map_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="70">
+            <fragment android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".ui.EventLocationActivity" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fb_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:borderWidth="0dp"
+                android:backgroundTint="@android:color/white"
+                android:src="@drawable/ic_arrow_back_black_24dp"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fb_full_screen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:borderWidth="0dp"
+                android:backgroundTint="@android:color/white"
+                android:layout_alignParentRight="true"
+                android:tint="@android:color/black"
+                android:src="@drawable/ic_baseline_fullscreen_24"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/lv_info_event"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30"
+            android:padding="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_rute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dapatkan rute"
+                android:padding="8dp"
+                android:textSize="12sp"
+                android:layout_gravity="right"
+                android:background="@drawable/bg_user_call"
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="#FFFFFF"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Seminar Nasional"
+                    android:textSize="18sp"
+                    android:text="@{event.judul}"
+                    android:fontFamily="@font/nunito"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lokasi Event"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/nunito"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical">
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/ic_baseline_location_on_24"
+                        android:tint="@color/colorAccent"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12dp"
+                        android:text="@{event.lokasi}"
+                        tools:text="hoahsoaihoahs"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jarak dari lokasi anda : "
+                        android:textSize="14sp"
+                        android:fontFamily="@font/nunito"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:text="@{jarak}"
+                        tools:text="hoahsoaihoahs"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Waktu tempuh : "
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/nunito"
+                        android:textColor="@android:color/black"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:text="@{waktu}"
+                        tools:text="hoahsoaihoahs"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>
