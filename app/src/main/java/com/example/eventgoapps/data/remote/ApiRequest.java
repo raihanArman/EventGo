@@ -4,6 +4,8 @@ import com.example.eventgoapps.data.remote.model.Event;
 import com.example.eventgoapps.data.remote.model.Lampiran;
 import com.example.eventgoapps.data.remote.model.User;
 import com.example.eventgoapps.data.remote.model.Value;
+import com.example.eventgoapps.data.remote.model.push_notif.DataMessage;
+import com.example.eventgoapps.data.remote.model.push_notif.FCMResponse;
 import com.example.eventgoapps.data.remote.model.response.EventResponse;
 import com.example.eventgoapps.data.remote.model.response.KategoriResponse;
 import com.example.eventgoapps.data.remote.model.response.LikeEventResponse;
@@ -18,6 +20,8 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -220,5 +224,13 @@ public interface ApiRequest {
     );
 //    Riwayat
 
+
+//    Push Notif
+    @Headers({
+            "Content-Type:application/json",
+            "Authorization:key=AAAAG8R6Kz4:APA91bGIZvF0CqetyOEasapb7_1aWlIcJQBcBBp4AbW8mxUu7kFLjSMauZ1WzAHKtXI4nHnjjCtLhWXfbHwD4-NRVPqng6L7kHFuEEcQydxkYHsspytGdfWElFhYt7vkCqruvoZamkQ6"
+    })
+    @POST("fcm/send")
+    Call<FCMResponse> sendMessage(@Body DataMessage body);
 
 }

@@ -1,5 +1,6 @@
 package com.example.eventgoapps.receiver;
 
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,9 +18,10 @@ import androidx.core.app.NotificationCompat;
 import com.example.eventgoapps.R;
 import com.example.eventgoapps.data.remote.model.Event;
 import com.example.eventgoapps.ui.DetailEventActivity;
+import com.example.eventgoapps.ui.DetailEventUserActivity;
 import com.example.eventgoapps.util.Utils;
 
-public class NearbyReceiver extends BroadcastReceiver {
+public class EventReceiver extends BroadcastReceiver {
 
     Event event;
     private static final String TAG = "NearbyReceiver";
@@ -33,16 +35,26 @@ public class NearbyReceiver extends BroadcastReceiver {
         if (action.equals(Utils.NOTIF_EVENT_NEARBY)){
             event = intent.getParcelableExtra("data_event");
             sendNotifcation(context, context.getResources().getString(R.string.app_name), "Event terdekat pada lokasi anda : "+
-                    event.getJudul(), event.getIdEvent());
+                    event.getJudul(), event.getIdEvent(), 58, new DetailEventActivity());
+        }else if(action.equals(Utils.NOTIF_EVENT_USULAN)){
+            String title =intent.getStringExtra("title");
+            String idEvent = intent.getStringExtra("id_event");
+            String message = intent.getStringExtra("message");
+            if (message.equals("diterima")) {
+                sendNotifcation(context, context.getResources().getString(R.string.app_name),"Event anda diterima" , idEvent, 60, new DetailEventUserActivity());
+            }else {
+                sendNotifcation(context, context.getResources().getString(R.string.app_name),"Event anda ditolak" , idEvent, 60, new DetailEventUserActivity());
+            }
+
         }
     }
 
-    private void sendNotifcation(Context context, String title, String desc, String idEvent) {
+    private void sendNotifcation(Context context, String title, String desc, String idEvent, int requestCode, Activity activity) {
         Log.d(TAG, "sendNotifcation: ");
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent(context, DetailEventActivity.class);
+        Intent intent = new Intent(context, activity.getClass());
         intent.putExtra("id_event", idEvent);
-        PendingIntent pendingIntent =PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent =PendingIntent.getActivity(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         String NOTIF_CHANNEL_ID = "event_channel_id";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){

@@ -28,20 +28,28 @@ import android.widget.Toast;
 import com.example.eventgoapps.MainActivity;
 import com.example.eventgoapps.R;
 import com.example.eventgoapps.data.remote.ApiRequest;
+import com.example.eventgoapps.data.remote.FCMRequest;
 import com.example.eventgoapps.data.remote.RetrofitRequest;
 import com.example.eventgoapps.data.local.repository.LampiranRepository;
 import com.example.eventgoapps.data.remote.model.Event;
+import com.example.eventgoapps.data.remote.model.Token;
 import com.example.eventgoapps.data.remote.model.Value;
+import com.example.eventgoapps.data.remote.model.push_notif.DataMessage;
+import com.example.eventgoapps.data.remote.model.push_notif.FCMResponse;
 import com.example.eventgoapps.databinding.FragmentFormLampiranBinding;
 import com.example.eventgoapps.ui.login.LoginActivity;
 import com.example.eventgoapps.util.ConvertBitmap;
 import com.example.eventgoapps.util.Utils;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
+import com.google.android.gms.common.api.Api;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -189,6 +197,9 @@ public class FormLampiranFragment extends Fragment implements ConvertBitmap {
                 ProgressDialog progressDialog = new ProgressDialog(getActivity());
                 progressDialog.setMessage("Menginput...");
                 progressDialog.show();
+
+
+
                 Call<Value> valueCall = apiRequest.inputEvent(
                         event
                 );
@@ -227,14 +238,14 @@ public class FormLampiranFragment extends Fragment implements ConvertBitmap {
                                                     }
                                                 });
                                             }
-                                            progressDialog.dismiss();
-                                            Toast.makeText(getActivity(), "Berhasil input event", Toast.LENGTH_SHORT).show();
-                                            getActivity().finish();
                                         }
                                     });
                                 } catch (IOException e) {
-                                    Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Log.d(TAG, "onResponse: "+e.getMessage());
                                 }
+
+
+                                sendMessageToAdmin(idEvent);
 
                             }
                         }
@@ -254,6 +265,50 @@ public class FormLampiranFragment extends Fragment implements ConvertBitmap {
             }
         });
         builder.show();
+    }
+
+    private void sendMessageToAdmin(String idEvent){
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference(Utils.TOKEN_TBL);
+        db.child("1").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Token token = dataSnapshot.getValue(Token.class);
+                String tokenUser = FirebaseInstanceId.getInstance().getToken();
+                Map<String, String> content = new HashMap<>();
+                content.put("title", "usulan");
+                content.put("id_event", idEvent);
+                content.put("id_user", idUser);
+                content.put("token_user", tokenUser);
+                content.put("message", "");
+                DataMessage dataMessage = new DataMessage(token.getToken(), content);
+                ApiRequest fcmRequest = FCMRequest.getClient(Utils.fcmUrl).create(ApiRequest.class);
+                fcmRequest.sendMessage(dataMessage)
+                        .enqueue(new Callback<FCMResponse>() {
+                            @Override
+                            public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
+                                if (response.body().getSuccess() == 1){
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getActivity(), "Berhasil input event", Toast.LENGTH_SHORT).show();
+                                    getActivity().finish();
+                                }else {
+                                    Toast.makeText(getActivity(), "Gagal mengirim pesan", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<FCMResponse> call, Throwable t) {
+                                Log.d(TAG, "onFailure: "+t.getMessage());
+                            }
+                        });
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -360,6 +415,7 @@ public class FormLampiranFragment extends Fragment implements ConvertBitmap {
             convertBitmap.bitmapToString(s);
         }
     }
+
 
 
 }

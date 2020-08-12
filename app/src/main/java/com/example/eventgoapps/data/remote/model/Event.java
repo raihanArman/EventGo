@@ -368,4 +368,7 @@ public class Event implements Parcelable {
             return new Event[size];
         }
     };
+
+
+
 }

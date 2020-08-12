@@ -34,6 +34,7 @@ import com.example.eventgoapps.R;
 import com.example.eventgoapps.data.remote.ApiRequest;
 import com.example.eventgoapps.data.remote.RetrofitRequest;
 import com.example.eventgoapps.data.remote.model.Event;
+import com.example.eventgoapps.data.remote.model.Token;
 import com.example.eventgoapps.data.remote.model.User;
 import com.example.eventgoapps.data.remote.model.response.EventResponse;
 import com.example.eventgoapps.data.remote.model.response.EventTerdekat;
@@ -62,6 +63,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -440,6 +442,20 @@ public class HomeFragment extends Fragment {
             buildLocationCallback();
             buildLocationRequest();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateFirebaseToken();
+    }
+
+    private void updateFirebaseToken(){
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference tokens = db.getReference(Utils.TOKEN_TBL);
+        Token token = new Token(FirebaseInstanceId.getInstance().getToken());
+        tokens.child(idUser)
+                .setValue(token);
     }
 
 }

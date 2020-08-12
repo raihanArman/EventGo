@@ -1,13 +1,10 @@
 package com.example.eventgoapps.service;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,9 +15,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
-import com.example.eventgoapps.MainActivity;
 import com.example.eventgoapps.data.remote.model.Event;
-import com.example.eventgoapps.receiver.NearbyReceiver;
+import com.example.eventgoapps.receiver.EventReceiver;
 import com.example.eventgoapps.util.Utils;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
@@ -38,10 +34,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class LoadEventTerdekat extends View {
     Context context;
@@ -159,7 +153,7 @@ public class LoadEventTerdekat extends View {
 //                        Todo:Notif
                         boolean statusNotif = sharedPreferences.getBoolean(Utils.NOTIF_TERDEKAT_STATUS, false);
                         if (statusNotif) {
-                            Intent intent = new Intent(context, NearbyReceiver.class);
+                            Intent intent = new Intent(context, EventReceiver.class);
                             intent.putExtra("data_event", event);
                             intent.setAction(Utils.NOTIF_EVENT_NEARBY);
                             context.sendBroadcast(intent);

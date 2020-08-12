@@ -18,12 +18,17 @@ public class Utils {
     public static final String EVENT_LOCATION = "event_location";
     public static final String DATA_EVENT = "Data Event";
     public static final String NOTIF_EVENT_NEARBY = "notif_event_terdekat";
+    public static final String NOTIF_EVENT_USULAN = "notif_event_usulan";
     public static Location mLastLocation = null;
     public static final String mapsUrl = "https://maps.googleapis.com";
     public static final int TYPE_ADD = 82;
     public static final int TYPE_EDIT = 81;
     public static final int TYPE_INTENT_RIWAYAT = 10;
     public static final int TYPE_INTENT_AKTIVITAS = 11;
+
+    public static final String fcmUrl = "https://fcm.googleapis.com/";
+
+    public static final String TOKEN_TBL = "Tokens";
 
     public static boolean isConnectionInternet(Context context){
         ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
